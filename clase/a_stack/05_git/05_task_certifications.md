@@ -22,8 +22,14 @@ Antes de empezar, abre tu chat con ChatGPT, Claude o Gemini. Para que te ayuden 
 
 ## Instrucciones Paso a Paso
 
-### 1. Preparación del Entorno
-Si aún no has clonado el repositorio y configurado el upstream, hazlo ahora (ver [02_repo_structure.md](./02_repo_structure.md)).
+### 1. Preparación del Entorno (Fork & Clone)
+
+**Paso 0: Fork (Obligatorio)**
+Antes de tocar la terminal, ve a [https://github.com/sonder-art/ia_p26](https://github.com/sonder-art/ia_p26) y haz un **Fork** hacia tu cuenta personal.
+
+Si aún no has clonado **TU FORK** y configurado el upstream, hazlo ahora (ver [02_repo_structure.md](./02_repo_structure.md)).
+
+> **¡Alto!** Asegúrate de haber clonado `github.com/TU_USUARIO/...` y no `github.com/sonder-art/...`. Si clonaste el del profesor por error, no podrás subir tus cambios.
 
 #### Opción Automática (Recomendada)
 Vamos a usar el script mágico `flow.sh`. Primero, necesitamos darle permisos de ejecución (hacerlo funcionar).
@@ -120,10 +126,10 @@ git push origin tarea-01-certificaciones
 > *"Quiero subir mis cambios manualmente. Estoy en la rama 'tarea-01-certificaciones'. ¿Cuáles son los comandos `git add`, `git commit` y `git push` exactos que debo usar para subir solo la carpeta 'estudiantes/mi_usuario'?"*
 
 ### 7. Crear el Pull Request (La Entrega)
-Ve a GitHub y crea el Pull Request siguiendo las reglas de [03_workflow.md](./03_workflow.md).
+Ve a la página de **TU Fork** en GitHub y crea el Pull Request siguiendo las reglas de [03_workflow.md](./03_workflow.md).
 
 *   **Base repository:** `sonder-art/ia_p26` (main)
-*   **Head repository:** `tu-usuario/ia_p26` (tarea-01-certificaciones)
+*   **Head repository:** `tu-usuario/tu-fork` (tarea-01-certificaciones)
 *   **Título del PR:** `[Tarea 01] Tu Nombre - Certificaciones`
 *   **Descripción:**
     ```markdown

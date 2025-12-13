@@ -131,7 +131,8 @@ Una vez que terminaste una parte del trabajo:
 
 ## Paso 5: Subir tu rama a GitHub (Push)
 
-Ahora subiremos tu rama `tarea-1-intro` a tu cuenta de GitHub (`origin`).
+Ahora subiremos tu rama `tarea-1-intro` a **TU** cuenta de GitHub (conocida como `origin`).
+Recuerda: No estás subiendo al repo del profesor, estás subiendo a tu Fork.
 
 1.  Ejecuta el push de la rama específica:
     ```bash
@@ -143,19 +144,24 @@ Ahora subiremos tu rama `tarea-1-intro` a tu cuenta de GitHub (`origin`).
 
 ## Paso 6: Crear el Pull Request (La Entrega)
 
-Aquí es donde oficialmente entregas tu tarea al profesor.
+Aquí es donde oficialmente entregas tu tarea al profesor. Es como enviar el correo con el adjunto, pero versión programador.
 
-1.  Ve a [https://github.com/sonder-art/ia_p26](https://github.com/sonder-art/ia_p26) (El repo del profesor).
+1.  Ve a la página de **TU Fork** en GitHub (`https://github.com/TU_USUARIO/NOMBRE_DEL_FORK`).
 2.  GitHub suele ser inteligente y te mostrará un recuadro amarillo diciendo "Compare & pull request" con tu rama reciente.
-    *   Si no aparece, ve a la pestaña "Pull requests" -> "New pull request" -> "compare across forks".
+    *   Si no aparece, ve a la pestaña "Pull requests" -> "New pull request".
+    *   Busca la opción que dice "compare across forks" o asegúrate de que estás comparando repositorios distintos.
 3.  **Configura la comparación (MUY IMPORTANTE):**
+    Asegurate de que la flecha apunte hacia la izquierda (`base <- head`).
+
     *   **Base repository:** `sonder-art/ia_p26` (Repo del profesor)
     *   **Base branch:** `main`
-    *   **Head repository:** `[tu-usuario]/ia_p26` (Tu fork)
+    *   **Head repository:** `[tu-usuario]/[tu-fork]` (Tu repositorio)
     *   **Compare branch:** `[nombre-rama-tarea]` (La rama donde trabajaste)
-    *   *No uses tu `main` aquí, usa la rama de la tarea.*
+    
+    *⚠️ Error común: No uses tu `main` en el "compare branch". Debes seleccionar la rama específica de tu tarea.*
+
 4.  **Título:** `[Tarea X] Tu Nombre - Título Breve`
-5.  **Descripción:** Explica brevemente qué hiciste.
+5.  **Descripción:** Explica brevemente qué hiciste o pega el template que te pida la tarea.
 6.  Dale click a **Create Pull Request**.
 
 ---

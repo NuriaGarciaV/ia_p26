@@ -148,22 +148,25 @@ Tu primera misión es crear tu "oficina" dentro del repositorio.
 Sigue estos pasos con cuidado. Usaremos el repositorio oficial de la clase: `https://github.com/sonder-art/ia_p26`
 
 ### 1. Fork (Bifurcación)
-No trabajaremos directamente sobre mi repositorio, sino sobre una copia tuya vinculada al mío.
+**Paso Crítico:** No trabajaremos directamente sobre mi repositorio, sino sobre una copia tuya vinculada al mío.
 
 1.  Ve a [https://github.com/sonder-art/ia_p26](https://github.com/sonder-art/ia_p26).
 2.  Arriba a la derecha, dale click al botón **Fork**.
-3.  Esto creará una copia exacta del repo en **TU** cuenta de GitHub (ej. `https://github.com/tu_usuario/ia_p26`).
+3.  GitHub te pedirá confirmar el nombre del repositorio.
+    *   Puedes dejarlo como `ia_p26` (recomendado).
+    *   O puedes ponerle un nombre personalizado (ej. `mi-curso-ia`, `ia-repo-personal`). **Este nombre es tu "placeholder", úsalo cuando veas referencias a tu repo.**
+4.  Dale a "Create Fork". Ahora tendrás una copia en `https://github.com/TU_USUARIO/NOMBRE_DEL_FORK`.
 
 ### 2. Clone (Clonar)
-Ahora bajaremos **TU** copia a tu computadora.
+Ahora bajaremos **TU** copia (tu fork) a tu computadora.
 
 > **Prompt para LLM:**
 > "Ya hice un Fork del repositorio. Ahora quiero clonarlo en mi computadora usando SSH.
-> 1. ¿Cuál es el comando `git clone` que debo usar para mi repositorio: `git@github.com:[TU_USUARIO]/ia_p26.git`?
+> 1. ¿Cuál es el comando `git clone` que debo usar para mi repositorio: `git@github.com:[TU_USUARIO]/[NOMBRE_DEL_FORK].git`?
 > 2. ¿En qué carpeta me recomiendas organizarlo?"
 
 ### 3. Configurar el "Upstream"
-Tu computadora sabe que `origin` es TU repositorio. Pero necesita saber que existe el repositorio del profesor (`upstream`) para bajar las actualizaciones.
+Tu computadora sabe que `origin` es TU repositorio (tu fork). Pero necesita saber que existe el repositorio del profesor (`upstream`) para bajar las actualizaciones de la clase.
 
 Ejecuta esto en tu terminal dentro de la carpeta del proyecto:
 
@@ -175,4 +178,6 @@ Para verificar:
 ```bash
 git remote -v
 ```
-Deberías ver 4 líneas: dos de `origin` (tu repo) y dos de `upstream` (mi repo).
+Deberías ver 4 líneas:
+*   `origin` -> Tu Fork (donde subes tus tareas).
+*   `upstream` -> Repo del Profesor (de donde bajas las clases).

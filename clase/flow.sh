@@ -180,6 +180,39 @@ cmd_finish() {
     fi
 }
 
+# 7. COPIAR ARCHIVOS (COPY)
+cmd_copy() {
+    if [ -z "$1" ] || [ -z "$2" ]; then
+        echo -e "${RED}Error: Faltan argumentos.${NC}"
+        echo "Uso: ./flow.sh copy [origen] [destino]"
+        exit 1
+    fi
+
+    ORIGEN=$1
+    DESTINO=$2
+
+    echo -e "${YELLOW}>>> Copiando archivos...${NC}"
+    
+    if [ ! -e "$ORIGEN" ]; then
+        echo -e "${RED}Error: El archivo de origen '$ORIGEN' no existe.${NC}"
+        exit 1
+    fi
+
+    # Verificar si el destino ya existe
+    if [ -e "$DESTINO" ]; then
+        echo -e "${RED}¡ALERTA! El destino '$DESTINO' ya existe.${NC}"
+        echo -e "${RED}Para proteger tu trabajo, NO se sobrescribirá automáticamente.${NC}"
+        echo -e "${YELLOW}Si deseas actualizarlo, por favor hazlo manualmente o renombra tu archivo existente.${NC}"
+        exit 1
+    fi
+
+    # Crear directorio padre si no existe
+    mkdir -p "$(dirname "$DESTINO")"
+    
+    cp -r "$ORIGEN" "$DESTINO"
+    echo -e "${GREEN}✓ Archivo copiado exitosamente a: $DESTINO${NC}"
+}
+
 # Router de comandos
 case "$1" in
     setup)
@@ -199,6 +232,9 @@ case "$1" in
         ;;
     finish)
         cmd_finish
+        ;;
+    copy)
+        cmd_copy "$2" "$3"
         ;;
     *)
         show_help

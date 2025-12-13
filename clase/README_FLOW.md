@@ -57,6 +57,14 @@ Ejecuta esto **una sola vez** cuando clones el repositorio.
 ./clase/flow.sh sync
 ```
 
+### 6. Copiar Archivos Segura (`copy`)
+Úsalo para traer plantillas o ejercicios de la carpeta `clase/` a tu carpeta personal.
+*   **Seguridad:** Si el archivo ya existe en tu carpeta, **NO** lo sobrescribirá para evitar borrar tu trabajo accidentalmente.
+
+```bash
+./clase/flow.sh copy clase/ejemplo.py estudiantes/tu_usuario/ejemplo.py
+```
+
 ---
 
 ## Para Agentes de IA (Cursor / Copilot)
