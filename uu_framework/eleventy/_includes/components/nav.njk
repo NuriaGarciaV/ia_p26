@@ -13,7 +13,9 @@
 
 {# Macro for generating URL from path #}
 {% macro itemUrl(item) %}
-{%- if item.type == "directory" and item.has_index -%}
+{%- if item.url -%}
+{{ item.url | url }}
+{%- elif item.type == "directory" and item.has_index -%}
 {{ ("/" + item.path + "/00_index/") | url }}
 {%- elif item.type == "directory" -%}
 {%- if item.children and item.children.length > 0 -%}

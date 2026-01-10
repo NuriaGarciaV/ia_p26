@@ -91,10 +91,11 @@ def generate_docs_hierarchy(docs_dir: Path, verbose: bool = False) -> dict:
     if docs_children:
         return {
             "name": "docs",
-            "path": "docs",
+            "path": "docs",  # Used for nav-path
+            "url": "/docs/",  # Direct URL override
             "type": "directory",
             "title": "Documentación",
-            "has_index": True,
+            "has_index": False,  # Uses pagination template, not 00_index.md
             "children": docs_children
         }
     return None
