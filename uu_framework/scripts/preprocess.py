@@ -17,7 +17,7 @@ import os
 import sys
 import argparse
 import json
-import shutil
+import re
 from pathlib import Path
 
 # Add scripts directory to path
@@ -44,63 +44,81 @@ def load_config(config_path: Path) -> dict:
         return {}
 
 
-def copy_docs_to_content(docs_dir: Path, content_dir: Path, verbose: bool = False) -> bool:
+def generate_docs_hierarchy(docs_dir: Path, verbose: bool = False) -> dict:
     """
-    Copy documentation from uu_framework/docs/ to content directory for processing.
-
-    Creates z_documentacion/ directory with the docs structure.
-    Returns True if docs were copied, False otherwise.
+    Generate hierarchy for documentation from uu_framework/docs/.
+    Returns a hierarchy dict to be merged into main hierarchy.
+    Docs are processed separately and rendered to /docs/ path.
     """
     if not docs_dir.exists():
         if verbose:
             print(f"      Docs directory not found: {docs_dir}")
-        return False
+        return None
 
-    target_dir = content_dir / 'z_documentacion'
-
-    # Remove existing target if it exists (clean copy)
-    if target_dir.exists():
-        shutil.rmtree(target_dir)
-
-    # Copy the docs directory structure
-    # We only copy the subdirectories (dev, profesor, estudiante), not README.md etc.
-    target_dir.mkdir(parents=True, exist_ok=True)
-
-    copied_count = 0
-    for item in docs_dir.iterdir():
+    docs_children = []
+    for item in sorted(docs_dir.iterdir()):
         if item.is_dir() and item.name in ['dev', 'profesor', 'estudiante']:
-            dest = target_dir / item.name
-            shutil.copytree(item, dest)
-            copied_count += 1
+            section = {
+                "name": item.name,
+                "path": f"docs/{item.name}",
+                "type": "directory",
+                "title": {
+                    "dev": "Developer Guide",
+                    "profesor": "Guía del Profesor",
+                    "estudiante": "Guía del Estudiante"
+                }.get(item.name, item.name.title()),
+                "has_index": (item / "00_index.md").exists(),
+                "children": []
+            }
+
+            # Add children (files in directory)
+            for child in sorted(item.iterdir()):
+                if child.is_file() and child.suffix == '.md':
+                    child_entry = {
+                        "name": child.stem,
+                        "path": f"docs/{item.name}/{child.stem}",
+                        "type": "file",
+                        "title": get_title_from_file(child),
+                        "has_index": False,
+                        "children": []
+                    }
+                    section["children"].append(child_entry)
+
+            docs_children.append(section)
             if verbose:
-                print(f"      Copied: {item.name}/")
+                print(f"      Found: {item.name}/ ({len(section['children'])} files)")
 
-    if copied_count > 0:
-        # Create index file for the documentation section
-        index_content = """---
-title: "Documentación del Framework"
----
+    if docs_children:
+        return {
+            "name": "docs",
+            "path": "docs",
+            "type": "directory",
+            "title": "Documentación",
+            "has_index": True,
+            "children": docs_children
+        }
+    return None
 
-# Documentación
 
-Guías y documentación del framework uu_framework.
-
-## Secciones
-
-| Sección | Idioma | Descripción |
-|---------|--------|-------------|
-| [Desarrollo](./dev/) | English | Technical documentation for developers |
-| [Profesor](./profesor/) | Español | Guía para crear contenido |
-| [Estudiante](./estudiante/) | Español | Guía de uso del sitio |
-"""
-        index_path = target_dir / '00_index.md'
-        with open(index_path, 'w', encoding='utf-8') as f:
-            f.write(index_content)
-
-        if verbose:
-            print(f"      Created: 00_index.md")
-
-    return copied_count > 0
+def get_title_from_file(file_path: Path) -> str:
+    """Extract title from markdown file frontmatter or filename."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            # Check for YAML frontmatter
+            if content.startswith('---'):
+                end = content.find('---', 3)
+                if end > 0:
+                    match = re.search(r'^title:\s*["\']?(.+?)["\']?\s*$', content[3:end], re.MULTILINE)
+                    if match:
+                        return match.group(1)
+    except Exception:
+        pass
+    # Fallback to filename
+    name = file_path.stem
+    # Remove numeric prefix
+    name = re.sub(r'^\d+_', '', name)
+    return name.replace('_', ' ').title()
 
 
 def main():
@@ -137,13 +155,6 @@ def main():
     print("uu_framework Preprocessing")
     print("=" * 60)
 
-    # Step 0: Copy documentation to content directory
-    print("\n[0/4] Copying documentation to content directory...")
-    if copy_docs_to_content(args.docs, args.content, args.verbose):
-        print("      Documentation copied to z_documentacion/")
-    else:
-        print("      No documentation found or copied")
-
     # Step 1: Extract metadata from all markdown files
     print("\n[1/4] Extracting metadata from markdown files...")
     metadata = extract_all_metadata(args.content, exclude, args.verbose)
@@ -157,6 +168,15 @@ def main():
     # Step 2: Generate hierarchy tree
     print("\n[2/4] Generating hierarchy tree...")
     hierarchy = generate_hierarchy(args.content, metadata, exclude, args.verbose)
+
+    # Add documentation hierarchy (from uu_framework/docs/, rendered to /docs/)
+    print("\n[2b/4] Adding documentation hierarchy...")
+    docs_hierarchy = generate_docs_hierarchy(args.docs, args.verbose)
+    if docs_hierarchy and 'children' in hierarchy:
+        hierarchy['children'].append(docs_hierarchy)
+        print(f"      Added docs section with {len(docs_hierarchy['children'])} subsections")
+    else:
+        print("      No documentation found")
 
     # Save hierarchy
     hierarchy_path = args.output / 'hierarchy.json'

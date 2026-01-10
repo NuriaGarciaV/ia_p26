@@ -8,14 +8,16 @@ services:
       context: ../..
       dockerfile: uu_framework/docker/Dockerfile
     volumes:
-      - ../../clase:/app/clase                # Mount content (writable for z_documentacion)
-      - ../../_site:/app/_site                # Output directory
-      - ../../uu_framework/config:/app/uu_framework/config:ro  # Config
+      - ../../clase:/app/clase:ro                # Course content (read-only)
+      - ../../_site:/app/_site                   # Output directory
+      - ../../uu_framework/config:/app/uu_framework/config:ro
       - ../../uu_framework/docs:/app/uu_framework/docs:ro  # Documentation source
-      - ../../uu_framework/eleventy/_data:/app/uu_framework/eleventy/_data  # Data files
-      - ../../uu_framework/eleventy/_includes:/app/uu_framework/eleventy/_includes:ro  # Templates
-      - ../../uu_framework/eleventy/tailwind.config.js:/app/uu_framework/eleventy/tailwind.config.js:ro  # Tailwind config
-      - ../../uu_framework/eleventy/src:/app/uu_framework/eleventy/src:ro  # CSS source
+      - ../../uu_framework/scripts:/app/uu_framework/scripts:ro  # Python scripts
+      - ../../uu_framework/eleventy/_data:/app/uu_framework/eleventy/_data
+      - ../../uu_framework/eleventy/_includes:/app/uu_framework/eleventy/_includes:ro
+      - ../../uu_framework/eleventy/.eleventy.js:/app/uu_framework/eleventy/.eleventy.js:ro
+      - ../../uu_framework/eleventy/tailwind.config.js:/app/uu_framework/eleventy/tailwind.config.js:ro
+      - ../../uu_framework/eleventy/src:/app/uu_framework/eleventy/src:ro
     command: ["sh", "-c", "python3 uu_framework/scripts/preprocess.py && npx @11ty/eleventy --config=uu_framework/eleventy/.eleventy.js && mkdir -p _site/css/themes && npx tailwindcss -c uu_framework/eleventy/tailwind.config.js -i uu_framework/eleventy/src/css/main.css -o _site/css/styles.css --minify && cp uu_framework/eleventy/src/css/themes/*.css _site/css/themes/"]
 
   # Development server with hot reload
@@ -24,16 +26,20 @@ services:
       context: ../..
       dockerfile: uu_framework/docker/Dockerfile
     volumes:
-      - ../../clase:/app/clase                # Mount content (writable for z_documentacion)
+      - ../../clase:/app/clase:ro                # Course content (read-only)
       - ../../_site:/app/_site
       - ../../uu_framework/config:/app/uu_framework/config:ro
       - ../../uu_framework/docs:/app/uu_framework/docs:ro  # Documentation source
+      - ../../uu_framework/scripts:/app/uu_framework/scripts:ro  # Python scripts
       - ../../uu_framework/eleventy/_data:/app/uu_framework/eleventy/_data
       - ../../uu_framework/eleventy/_includes:/app/uu_framework/eleventy/_includes:ro
-      - ../../uu_framework/eleventy/src:/app/uu_framework/eleventy/src:ro
+      - ../../uu_framework/eleventy/.eleventy.js:/app/uu_framework/eleventy/.eleventy.js:ro
       - ../../uu_framework/eleventy/tailwind.config.js:/app/uu_framework/eleventy/tailwind.config.js:ro
+      - ../../uu_framework/eleventy/src:/app/uu_framework/eleventy/src:ro
     ports:
       - "3000:3000"
+    environment:
+      - PATH_PREFIX=/ia_p26/  # Change this for different repos
     command: >
       sh -c "python3 uu_framework/scripts/preprocess.py &&
              mkdir -p _site/css/themes &&
@@ -49,8 +55,9 @@ services:
       context: ../..
       dockerfile: uu_framework/docker/Dockerfile
     volumes:
-      - ../../clase:/app/clase                # Mount content (writable for z_documentacion)
+      - ../../clase:/app/clase:ro                # Course content (read-only)
       - ../../uu_framework/docs:/app/uu_framework/docs:ro  # Documentation source
+      - ../../uu_framework/scripts:/app/uu_framework/scripts:ro  # Python scripts
       - ../../uu_framework/eleventy/_data:/app/uu_framework/eleventy/_data
       - ../../uu_framework/config:/app/uu_framework/config:ro
     command: ["sh", "-c", "python3 uu_framework/scripts/preprocess.py --verbose"]

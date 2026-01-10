@@ -7,6 +7,8 @@ const markdownIt = require("markdown-it");
 const markdownItContainer = require("markdown-it-container");
 const markdownItAttrs = require("markdown-it-attrs");
 const markdownItAnchor = require("markdown-it-anchor");
+const fs = require("fs");
+const path = require("path");
 
 module.exports = function(eleventyConfig) {
 
@@ -61,18 +63,24 @@ module.exports = function(eleventyConfig) {
   // Passthrough Copy
   // ============================================
 
-  // Copy CSS
-  eleventyConfig.addPassthroughCopy({ "src/css": "css" });
+  // Copy CSS (paths relative to input directory)
+  eleventyConfig.addPassthroughCopy({ "../uu_framework/eleventy/src/css": "css" });
 
   // Copy fonts
-  eleventyConfig.addPassthroughCopy({ "src/fonts": "fonts" });
+  eleventyConfig.addPassthroughCopy({ "../uu_framework/eleventy/src/fonts": "fonts" });
 
   // Copy images from content
-  eleventyConfig.addPassthroughCopy("clase/**/*.{png,jpg,jpeg,gif,svg,webp}");
+  eleventyConfig.addPassthroughCopy("**/*.{png,jpg,jpeg,gif,svg,webp}");
 
   // ============================================
   // Filters
   // ============================================
+
+  // Render markdown content
+  eleventyConfig.addFilter("renderMarkdown", function(content) {
+    if (!content) return '';
+    return md.render(content);
+  });
 
   // Format date in Spanish
   eleventyConfig.addFilter("formatDate", function(date) {
@@ -167,6 +175,15 @@ module.exports = function(eleventyConfig) {
   });
 
   // ============================================
+  // Documentation (from uu_framework/docs/)
+  // Uses docsContent.js data file + clase/docs.njk pagination
+  // Rendered to /docs/ path, keeping clase/ clean
+  // ============================================
+
+  // Add docs directory to watch targets for hot reload
+  eleventyConfig.addWatchTarget("../uu_framework/docs/");
+
+  // ============================================
   // Shortcodes
   // ============================================
 
@@ -235,6 +252,10 @@ module.exports = function(eleventyConfig) {
   // Configuration
   // ============================================
 
+  // Path prefix can be set via environment variable for different repos
+  // Default to repo name from config or fallback
+  const pathPrefix = process.env.PATH_PREFIX || "/ia_p26/";
+
   return {
     dir: {
       input: "clase",
@@ -245,7 +266,7 @@ module.exports = function(eleventyConfig) {
     templateFormats: ["md", "njk", "html"],
     markdownTemplateEngine: "njk",
     htmlTemplateEngine: "njk",
-    pathPrefix: "/ia_p26/"
+    pathPrefix: pathPrefix
   };
 };
 
