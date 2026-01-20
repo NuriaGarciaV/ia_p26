@@ -58,8 +58,8 @@ graph LR
         A[KB ⊨ α] <--> B[KB ⊢ α]
     end
     
-    style A fill:#7dd3fc,stroke:#0284c7
-    style B fill:#a78bfa,stroke:#7c3aed
+    style A fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style B fill:#8b5cf6,stroke:#7c3aed,color:#fff
 ```
 
 ---
@@ -200,7 +200,7 @@ graph TD
     C1 & C3 --> D1["Q"]
     C2 & D1 --> D2["R ✓"]
     
-    style D2 fill:#00ff41,stroke:#333,color:#000
+    style D2 fill:#059669,stroke:#047857,color:#fff
 ```
 
 ---
@@ -466,7 +466,7 @@ graph TD
     C3 & C4 --> R2["¬Q"]
     R1 & R2 --> R3["□ (contradicción)"]
     
-    style R3 fill:#f87171,stroke:#dc2626
+    style R3 fill:#dc2626,stroke:#b91c1c,color:#fff
 ```
 
 </details>

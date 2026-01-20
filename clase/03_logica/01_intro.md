@@ -15,9 +15,9 @@ graph LR
     C --> D[Utility-Based]
     D --> E[Learning]
     
-    style A fill:#94a3b8,stroke:#475569
-    style B fill:#7dd3fc,stroke:#0284c7
-    style C fill:#00ff41,stroke:#333,color:#000
+    style A fill:#64748b,stroke:#475569,color:#fff
+    style B fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style C fill:#059669,stroke:#047857,color:#fff
 ```
 
 Los **Simple Reflex Agents** actúan por reglas fijas:
@@ -68,8 +68,8 @@ graph TD
     INF --> KB
     INF --> A[Actions]
     
-    style KB fill:#a78bfa,stroke:#7c3aed
-    style INF fill:#5eead4,stroke:#14b8a6
+    style KB fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    style INF fill:#14b8a6,stroke:#0d9488,color:#fff
 ```
 
 | Componente | Descripción | Analogía |
@@ -194,11 +194,11 @@ graph TD
     C --> E
     D --> E
     
-    style A fill:#5eead4,stroke:#14b8a6
-    style B fill:#7dd3fc,stroke:#0284c7
-    style C fill:#a78bfa,stroke:#7c3aed
-    style D fill:#fbbf24,stroke:#d97706
-    style E fill:#00ff41,stroke:#333,color:#000
+    style A fill:#14b8a6,stroke:#0d9488,color:#fff
+    style B fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style C fill:#8b5cf6,stroke:#7c3aed,color:#fff
+    style D fill:#f59e0b,stroke:#d97706,color:#000
+    style E fill:#059669,stroke:#047857,color:#fff
 ```
 
 | Sección | Pregunta que Responde |

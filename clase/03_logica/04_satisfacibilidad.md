@@ -30,10 +30,10 @@ graph TD
     V --> S[Satisfacibles]
     C --> S
     
-    style V fill:#00ff41,stroke:#333,color:#000
-    style C fill:#7dd3fc,stroke:#0284c7
-    style I fill:#f87171,stroke:#dc2626
-    style S fill:#a78bfa,stroke:#7c3aed
+    style V fill:#059669,stroke:#047857,color:#fff
+    style C fill:#0ea5e9,stroke:#0284c7,color:#fff
+    style I fill:#dc2626,stroke:#b91c1c,color:#fff
+    style S fill:#8b5cf6,stroke:#7c3aed,color:#fff
 ```
 
 ### Relación con Entailment
@@ -259,11 +259,11 @@ graph TD
     SAT --> |"XOR"| XOR[XOR-SAT<br/>P]
     SAT --> |"≥3 literales"| THREE[3-SAT<br/>NP-completo]
     
-    style SAT fill:#fbbf24,stroke:#d97706
-    style TWO fill:#00ff41,stroke:#333,color:#000
-    style HORN fill:#00ff41,stroke:#333,color:#000
-    style XOR fill:#00ff41,stroke:#333,color:#000
-    style THREE fill:#f87171,stroke:#dc2626
+    style SAT fill:#f59e0b,stroke:#d97706,color:#000
+    style TWO fill:#059669,stroke:#047857,color:#fff
+    style HORN fill:#059669,stroke:#047857,color:#fff
+    style XOR fill:#059669,stroke:#047857,color:#fff
+    style THREE fill:#dc2626,stroke:#b91c1c,color:#fff
 ```
 
 ---

@@ -61,7 +61,7 @@ graph LR
     B -.->|"La lógica es binaria..."| D
     C -.->|"SAT es NP-completo"| B
     
-    style B fill:#00ff41,stroke:#333,color:#000
+    style B fill:#059669,stroke:#047857,color:#fff
 ```
 
 La lógica es el primer paso hacia el razonamiento formal:

@@ -211,7 +211,7 @@ graph TD
     E["¬B[1,2]"] --> F["¬P[2,2]"]
     D & F --> G["P[3,1] ✓"]
     
-    style G fill:#00ff41,stroke:#333,color:#000
+    style G fill:#059669,stroke:#047857,color:#fff
 ```
 
 ---
