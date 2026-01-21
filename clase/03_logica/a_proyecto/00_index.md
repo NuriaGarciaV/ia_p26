@@ -6,8 +6,6 @@ title: "Proyecto: Sistemas de Razonamiento Lógico"
 
 El objetivo de este proyecto es aplicar los conceptos de **Lógica Proposicional**, **Bases de Conocimiento (KB)** y **Satisfacibilidad (SAT)** para diseñar un sistema capaz de razonar sobre un problema del mundo real.
 
-:::project{id="p3-logica" title="Sistemas de Razonamiento Lógico" due="2026-02-09" team_size="1-2" points="10"}
-
 **Misión:** Diseñar la "inteligencia" de un sistema que, a partir de hechos y reglas, pueda inferir estados ocultos, detectar contradicciones o resolver conflictos logísticos.
 
 > **¡Ayuda disponible!** Tienes a tu disposición un [esqueleto de código](./code/logic_skeleton.py) para acelerar tu desarrollo.
@@ -35,20 +33,33 @@ Diseña un motor que analice interacciones sociales para inferir estados como: "
 
 *   **Hechos Observables:** `tarda_mas_de_1_hora_en_responder`, `deja_en_visto`, `menciona_a_otros_amigos`.
 *   **Estado Oculto:** `interes_romantico`, `molestia`, `timidez`.
-*   **Meta:** El sistema debe decirte si, dada la conducta observada, la conclusión es **necesariamente cierta** o si hay **señales contradictorias**.
+*   **Algoritmo Sugerido:** **Forward Chaining** si usas Cláusulas de Horn (reglas tipo "Si A y B entonces C"), o **Resolución** si permites reglas más complejas.
 
 ### Opción B: Auditor de Seguridad (Hackeo Lógico)
 Diseña las reglas de una casa inteligente o un sistema de acceso y usa un SAT Solver para encontrar "backdoors" o fallos de seguridad.
 
 *   **Reglas:** "Si el dueño está fuera, la alarma debe estar armada". "Si la alarma está armada, la puerta debe estar cerrada".
 *   **Vulnerabilidad:** Encuentra si existe una combinación de valores (modelo) donde las reglas se cumplen pero una condición de seguridad se rompe (ej. `puerta_abierta` y `alarma_armada`).
+*   **Algoritmo Sugerido:** **DPLL** o un **SAT Solver** (como `pysat` o el `satisfiable` de `sympy`) para encontrar el modelo que causa el fallo.
 
 ### Opción C: Arquitecto de Eventos (Logística de Caos)
 Resuelve el conflicto de horarios de un festival de música o un congreso donde hay recursos limitados y deseos en conflicto.
 
 *   **Restricciones:** "Banda A y Banda B no pueden tocar al mismo tiempo". "El escenario principal solo tiene 3 turnos".
 *   **Deseos:** "El usuario quiere ver a la Banda A y a la Banda C".
-*   **Meta:** El sistema debe generar un itinerario **satisfacible** o demostrar que es **imposible** cumplir todos los deseos.
+*   **Algoritmo Sugerido:** Modelado como **SAT**. Debes convertir las restricciones a **CNF** y verificar si el conjunto total de deseos + restricciones es satisfacible.
+
+---
+
+## Hoja de Ruta Técnica: Eligiendo tu Algoritmo
+
+Dependiendo de cómo diseñes tu Base de Conocimiento (KB), puedes implementar diferentes algoritmos vistos en clase:
+
+| Si tu KB es... | Algoritmo Ideal | Complejidad | ¿Qué demuestra? |
+| :--- | :--- | :--- | :--- |
+| **Cláusulas de Horn** (A ∧ B → C) | Forward/Backward Chaining | $O(n)$ (Lineal) | Razonamiento deductivo eficiente y propagación de hechos. |
+| **CNF General** (A ∨ ¬B ∨ C) | Resolución (Refutación) | Exponencial | Completitud lógica y demostración por contradicción. |
+| **Búsqueda de Modelos** | DPLL / WalkSAT | Exponencial | Capacidad de encontrar soluciones válidas bajo múltiples restricciones. |
 
 ---
 
@@ -135,11 +146,18 @@ Explica brevemente qué herramienta o librería usaste (ej. `pysat`, `sympy`, o 
 4.  **Importante:** Asegúrate de que el repositorio sea público o invites al profesor como colaborador.
 
 ---
-
 ## Esqueleto de Código
 
-Para ayudarte a comenzar, hemos preparado un [esqueleto de código](./code/logic_skeleton.py) que define la estructura básica de una Base de Conocimiento y cómo podrías integrar un motor de inferencia. Úsalo como base para construir tu lógica.
+Para ayudarte a comenzar, hemos preparado un cascaron base en Python con **Streamlit**. Este código está separado en dos partes para mantener el orden:
+1.  **[`logic.py`](./code/logic.py):** El "cerebro" donde definirás tu Base de Conocimiento y algoritmos de inferencia.
+2.  **[`app.py`](./code/app.py):** La interfaz visual para interactuar con tu lógica.
+
+### 💡 Libertad de Herramientas
+**El esqueleto es solo una ayuda, no una obligación.** Puedes desarrollar tu proyecto usando las herramientas que prefieras:
+*   **Web Moderna:** React, Vue, o JavaScript vainilla.
+*   **Data Science:** Notebooks de Jupyter interactivos.
+*   **Reto Pro:** Si decides implementar tu motor lógico usando **Prolog**, obtendrás **0.2 décimas extras** en la calificación final del proyecto (debido a que Prolog es el lenguaje natural para la programación lógica y requiere un esfuerzo adicional de aprendizaje).
 
 :::exercise{title="¿Libertad Creativa?" difficulty="1"}
-¿Quieres hacer algo diferente? ¡Adelante! Siempre que uses **lógica proposicional** y un **motor de inferencia/SAT** para resolver un problema de decisión o diagnóstico, tu proyecto es válido.
+¿Quieres hacer algo diferente? ¡Adelante! Siempre que uses **lógica proposicional** y un **motor de inferencia/SAT** para resolver un problema de decisión o diagnóstico, tu proyecto es válido, sin importar el lenguaje.
 :::
