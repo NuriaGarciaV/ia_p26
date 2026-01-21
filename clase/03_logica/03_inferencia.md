@@ -32,6 +32,10 @@ Decimos que $\alpha$ **implica lógicamente** a $\beta$ (escrito $\alpha \models
 
 Es decir, no existe ninguna situación posible donde $\alpha$ sea verdadera y $\beta$ sea falsa.
 
+**Intuición clave:** El conocimiento más específico implica el más general.
+- "Llueve Y hace frío" → "Llueve" ✓
+- "Llueve" → "Llueve Y hace frío" ✗ (no necesariamente)
+
 ### Definición Formal usando Modelos
 
 Recordemos que un **modelo** es una asignación de valores de verdad a todas las variables. Podemos definir:
@@ -44,23 +48,64 @@ $$\alpha \models \beta \iff M(\alpha) \subseteq M(\beta)$$
 
 ![Entailment como subconjuntos de modelos]({{ '/03_logica/images/entailment_venn.png' | url }})
 
-**Interpretación del diagrama:** El círculo azul representa todos los mundos/modelos donde $\alpha$ es verdadera. El círculo verde representa donde $\beta$ es verdadera. Si el azul está completamente contenido en el verde, entonces $\alpha \models \beta$.
+**Interpretación del diagrama:** El círculo azul (más pequeño) representa todos los mundos/modelos donde $\alpha$ es verdadera. El círculo verde (más grande) representa donde $\beta$ es verdadera. Si el azul está **completamente contenido dentro** del verde, entonces $\alpha \models \beta$.
 
-### Ejemplo Concreto
+**¿Por qué $M(\alpha)$ es más pequeño?** Porque $\alpha$ es más restrictiva — hay menos situaciones donde algo específico es verdadero que donde algo general lo es.
 
-**KB:** $P \land Q$ (P y Q son ambas verdaderas)
+### Ejemplo Concreto con Conteo de Modelos
 
-**Pregunta:** ¿$KB \models P$? (¿Podemos concluir P?)
+**Universo:** Variables P y Q → 4 modelos posibles
+
+| Modelo | P | Q | $P \land Q$ | $P$ |
+|:------:|:-:|:-:|:-----------:|:---:|
+| m₁ | T | T | **T** | **T** |
+| m₂ | T | F | F | **T** |
+| m₃ | F | T | F | F |
+| m₄ | F | F | F | F |
+
+**Pregunta:** ¿$P \land Q \models P$? (¿"P y Q" implica "P"?)
 
 **Análisis:**
-- ¿En qué modelos es verdadera $P \land Q$? Solo en el modelo $\{P=T, Q=T\}$
-- En ese único modelo, ¿es verdadera $P$? Sí
-- Por lo tanto: $P \land Q \models P$ ✓
+- $M(P \land Q) = \{m_1\}$ — solo 1 modelo (más específico)
+- $M(P) = \{m_1, m_2\}$ — 2 modelos (más general)
+- ¿$M(P \land Q) \subseteq M(P)$? Sí, $\{m_1\} \subseteq \{m_1, m_2\}$ ✓
+- **Por lo tanto:** $P \land Q \models P$ ✓
 
-**Otro ejemplo:** ¿$P \models P \land Q$?
-- Modelos donde $P$ es verdadera: $\{P=T, Q=T\}$ y $\{P=T, Q=F\}$
-- ¿En todos esos modelos es verdadera $P \land Q$? No, en $\{P=T, Q=F\}$ es falsa
-- Por lo tanto: $P \not\models P \land Q$ ✗
+**Pregunta inversa:** ¿$P \models P \land Q$?
+
+**Análisis:**
+- $M(P) = \{m_1, m_2\}$ — 2 modelos
+- $M(P \land Q) = \{m_1\}$ — 1 modelo
+- ¿$M(P) \subseteq M(P \land Q)$? No, porque $m_2 \in M(P)$ pero $m_2 \notin M(P \land Q)$ ✗
+- **Por lo tanto:** $P \not\models P \land Q$ ✗
+
+**Conclusión:** El entailment es **unidireccional** — no funciona al revés.
+
+### Entailment vs. Equivalencia Lógica
+
+Es crucial distinguir entre implicación unidireccional y equivalencia:
+
+| Concepto | Notación | Significado | Bidireccional |
+|----------|----------|-------------|---------------|
+| **Entailment** | $\alpha \models \beta$ | Si α es TRUE, entonces β debe ser TRUE | ❌ NO |
+| **Equivalencia** | $\alpha \equiv \beta$ o $\alpha \leftrightarrow \beta$ | α y β son TRUE en exactamente los mismos modelos | ✅ SÍ |
+
+**Definición formal de equivalencia:**
+$$\alpha \equiv \beta \quad\text{si y solo si}\quad M(\alpha) = M(\beta)$$
+
+Equivalentemente:
+$$\alpha \equiv \beta \quad\text{si y solo si}\quad (\alpha \models \beta) \text{ Y } (\beta \models \alpha)$$
+
+**Ejemplos:**
+
+- $P \land Q \equiv Q \land P$ (conmutatividad — son equivalentes)
+  - $M(P \land Q) = M(Q \land P) = \{m_1\}$
+  
+- $P \lor Q \equiv \neg(\neg P \land \neg Q)$ (ley de De Morgan — equivalentes)
+  
+- $P \land Q \not\equiv P$ (NO son equivalentes)
+  - $M(P \land Q) = \{m_1\} \neq \{m_1, m_2\} = M(P)$
+  - Pero sí hay entailment: $P \land Q \models P$ (unidireccional)
 
 ---
 
