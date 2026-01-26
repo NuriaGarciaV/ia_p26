@@ -245,11 +245,128 @@ Todas las cláusulas son verdaderas, por lo tanto la fórmula es satisfacible.
 
 ### ¿Qué Significa NP-Completo?
 
-En teoría de la complejidad, los problemas se clasifican por qué tan difíciles son de resolver:
+En teoría de la complejidad computacional, los problemas se clasifican según su dificultad:
 
-- **P**: Problemas que se pueden **resolver** en tiempo polinomial (eficientemente)
-- **NP**: Problemas cuyas soluciones se pueden **verificar** en tiempo polinomial
-- **NP-completo**: Los problemas más difíciles en NP
+#### Clase P (Polynomial Time)
+
+**Definición:** Problemas que se pueden **resolver** en tiempo polinomial.
+
+**Característica:** Existe un algoritmo que encuentra la solución en tiempo $O(n^k)$ para alguna constante k.
+
+**Ejemplos:**
+- **Ordenar una lista** — Quicksort/Mergesort: $O(n \log n)$
+- **Buscar en una lista ordenada** — Búsqueda binaria: $O(\log n)$
+- **Encontrar el camino más corto** — Algoritmo de Dijkstra: $O(n^2)$ o $O(n \log n)$ con heap
+- **Multiplicar dos matrices** — $O(n^3)$ (o mejor con algoritmos optimizados)
+
+**Intuición:** Si un problema está en P, podemos resolverlo eficientemente incluso para entradas grandes.
+
+---
+
+#### Clase NP (Nondeterministic Polynomial Time)
+
+**Definición:** Problemas cuyas **soluciones se pueden verificar** en tiempo polinomial.
+
+**Característica:** Si alguien te da una solución candidata, puedes comprobar rápidamente si es correcta.
+
+**Nota importante:** NP NO significa "no polinomial" — significa "polinomial no determinista".
+
+**Ejemplos:**
+
+1. **Problema SAT**
+   - **Pregunta:** ¿Existe una asignación que satisface esta fórmula?
+   - **Verificación:** Dada una asignación, evaluar la fórmula es $O(n)$ — ¡rápido!
+   - **Solución:** Encontrar la asignación puede requerir $O(2^n)$ — ¡lento!
+
+2. **Problema del Viajante (TSP - Decisión)**
+   - **Pregunta:** ¿Existe un tour que visita todas las ciudades con distancia ≤ k?
+   - **Verificación:** Dada una ruta, sumar distancias es $O(n)$ — ¡rápido!
+   - **Solución:** Encontrar la mejor ruta puede requerir $O(n!)$ — ¡lento!
+
+3. **Coloración de Grafos**
+   - **Pregunta:** ¿Se puede colorear este grafo con k colores sin que nodos adyacentes tengan el mismo color?
+   - **Verificación:** Dada una coloración, revisar aristas es $O(n^2)$ — ¡rápido!
+   - **Solución:** Encontrar la coloración puede ser exponencial — ¡lento!
+
+4. **Problema de la Mochila (Knapsack)**
+   - **Pregunta:** ¿Puedo llenar una mochila de capacidad W con valor ≥ V?
+   - **Verificación:** Dada una selección de objetos, sumar pesos y valores es $O(n)$ — ¡rápido!
+   - **Solución:** Explorar todas las combinaciones es $O(2^n)$ — ¡lento!
+
+**Intuición:** Es fácil **revisar** la tarea de alguien más, pero difícil **hacerla** tú mismo.
+
+**Relación P y NP:** Claramente $P \subseteq NP$ (si puedes resolver algo rápido, también puedes verificarlo rápido). La pregunta del millón: **¿P = NP?**
+
+---
+
+#### Clase NP-Completo
+
+**Definición:** Los problemas **más difíciles** de NP. Un problema es NP-completo si:
+1. Está en NP (las soluciones se pueden verificar en tiempo polinomial)
+2. Es **NP-hard** (cualquier problema en NP se puede reducir a él en tiempo polinomial)
+
+**Intuición:** Si encuentras un algoritmo polinomial para **un** problema NP-completo, ¡puedes resolver **todos** los problemas en NP eficientemente! (P = NP)
+
+**El primer problema NP-completo:** SAT (Teorema de Cook-Levin, 1971)
+
+**Otros ejemplos NP-completos:**
+- **3-SAT** — SAT con exactamente 3 literales por cláusula
+- **Problema del Viajante (decisión)** — ¿Tour de longitud ≤ k?
+- **Coloración de grafos** — ¿Colorear con k colores?
+- **Clique** — ¿Existe un subgrafo completo de tamaño k?
+- **Vertex Cover** — ¿k nodos cubren todas las aristas?
+- **Subset Sum** — ¿Hay un subconjunto que suma exactamente k?
+- **Sudoku generalizado** — ¿Completar un Sudoku n×n?
+- **Minesweeper generalizado** — ¿Configuración consistente?
+
+**Todos estos problemas son equivalentes en dificultad** — si resuelves uno eficientemente, resuelves todos.
+
+---
+
+#### Clase NP-Hard
+
+**Definición:** Problemas **al menos tan difíciles** como los problemas NP-completos, pero **no necesariamente en NP**.
+
+**Diferencia con NP-completo:** Puede que ni siquiera podamos verificar soluciones eficientemente.
+
+**Ejemplos:**
+- **Halting Problem** — ¿Este programa se detiene? (indecidible, peor que NP)
+- **Problema del Viajante (optimización)** — Encontrar la ruta **más corta** (no solo verificar si existe una ≤ k)
+- **Ajedrez generalizado en tablero n×n** — ¿Blancas tienen estrategia ganadora?
+- **Go generalizado** — Similar al ajedrez
+
+**Intuición:** Son problemas tan duros o más duros que NP-completo, pero pueden no estar en NP.
+
+---
+
+#### Diagrama de Relaciones
+
+```
+┌─────────────────────────────────────┐
+│         NP-Hard                     │
+│  (al menos tan difícil como NP)     │
+│                                     │
+│   ┌──────────────────────────┐     │
+│   │         NP               │     │
+│   │                          │     │
+│   │  ┌────────────────┐      │     │
+│   │  │      P         │      │     │
+│   │  │   (eficiente)  │      │     │
+│   │  └────────────────┘      │     │
+│   │                          │     │
+│   │   ┌──────────────────┐   │     │
+│   │   │  NP-Completo     │◄──┼─────┤ Frontera
+│   │   │ (los más duros   │   │     │
+│   │   │   de NP)         │   │     │
+│   │   └──────────────────┘   │     │
+│   └──────────────────────────┘     │
+└─────────────────────────────────────┘
+
+P ⊆ NP ⊆ NP-Hard
+NP-Completo = NP ∩ NP-Hard
+```
+
+**La pregunta del millón:** ¿P = NP? (hay $1,000,000 USD de premio para quien la resuelva)
 
 ### El Teorema de Cook-Levin (1971)
 

@@ -223,27 +223,6 @@ Key files to understand when making framework changes:
 - **Course content & user guides**: Spanish
 - **Comments in code**: English preferred
 
-## Documentation Structure
-
-Documentation is organized by audience and rendered separately:
-
-```
-uu_framework/docs/
-├── dev/           # Developer guides (English)
-│   ├── Architecture, preprocessing, Eleventy internals
-│   ├── Theming system, component development
-│   └── Docker setup and troubleshooting
-├── profesor/      # Professor guides (Spanish)
-│   ├── Content structure, frontmatter reference
-│   ├── Component usage (:::homework, :::exam, etc.)
-│   └── Mermaid diagrams, best practices
-└── estudiante/    # Student guides (Spanish)
-    ├── Site navigation, accessibility features
-    └── Submitting assignments, task tracking
-```
-
-These are processed separately from course content and rendered to `/docs/` URLs.
-
 ## Common Workflows
 
 ### Adding New Course Content
@@ -277,3 +256,10 @@ Students work in `estudiantes/<username>/`:
 3. `./clase/flow.sh save "message"` - Commit work
 4. `./clase/flow.sh upload` - Push to fork and create PR to upstream
 5. After PR merge: `./clase/flow.sh finish` - Clean up and sync
+
+## Gotchas
+
+- **Preprocessing required first**: Always run preprocessing before Eleventy. The build will fail if `repo.json` doesn't exist (auto-detected from git remote).
+- **Path prefix errors**: If you see "Cannot determine path prefix", run `docker compose -f uu_framework/docker/docker-compose.yaml run preprocess` first.
+- **Content exclusions**: `??_` prefixed directories are work-in-progress and excluded from build. `b_libros/` is gitignored.
+- **Markdown links**: Use `.md` extension in links (e.g., `[text](../file.md)`). Eleventy transforms them to directory URLs automatically.
