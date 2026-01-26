@@ -90,6 +90,106 @@ graph TD
 | $P \land \neg P$ | — | — | ✓ | Contradicción |
 | $(P \rightarrow Q) \land P \land \neg Q$ | — | — | ✓ | Contradicción |
 
+#### Tablas de Verdad de los Ejemplos
+
+**1. Contingente: $P$**
+
+| P | Resultado |
+|:---:|:---------:|
+| T | **T** ✓ |
+| F | **F** |
+
+Es TRUE en 1 de 2 modelos → **Satisfacible** pero no válida → **Contingente**
+
+---
+
+**2. Contingente: $P \land Q$**
+
+| P | Q | $P \land Q$ |
+|:---:|:---:|:-----------:|
+| T | T | **T** ✓ |
+| T | F | **F** |
+| F | T | **F** |
+| F | F | **F** |
+
+Es TRUE en 1 de 4 modelos → **Satisfacible** pero no válida → **Contingente**
+
+---
+
+**3. Tautología: $P \lor \neg P$ (Ley del Tercero Excluido)**
+
+| P | $\neg P$ | $P \lor \neg P$ |
+|:---:|:--------:|:---------------:|
+| T | F | **T** ✓ |
+| F | T | **T** ✓ |
+
+Es TRUE en todos los modelos (2/2) → **Válida** → **Tautología**
+
+**Intuición:** P es verdadero o P es falso. Siempre una de las dos opciones es cierta.
+
+---
+
+**4. Tautología: $P \rightarrow P$**
+
+| P | $P \rightarrow P$ |
+|:---:|:-----------------:|
+| T | $T \rightarrow T = \mathbf{T}$ ✓ |
+| F | $F \rightarrow F = \mathbf{T}$ ✓ |
+
+Es TRUE en todos los modelos (2/2) → **Válida** → **Tautología**
+
+**Intuición:** Cualquier cosa se implica a sí misma (reflexividad).
+
+---
+
+**5. Tautología: $(P \rightarrow Q) \lor (Q \rightarrow P)$**
+
+| P | Q | $P \rightarrow Q$ | $Q \rightarrow P$ | $(P \rightarrow Q) \lor (Q \rightarrow P)$ |
+|:---:|:---:|:-----------------:|:-----------------:|:------------------------------------------:|
+| T | T | $T \rightarrow T = \mathbf{T}$ | $T \rightarrow T = \mathbf{T}$ | **T** ✓ |
+| T | F | $T \rightarrow F = \mathbf{F}$ | $F \rightarrow T = \mathbf{T}$ | **T** ✓ |
+| F | T | $F \rightarrow T = \mathbf{T}$ | $T \rightarrow F = \mathbf{F}$ | **T** ✓ |
+| F | F | $F \rightarrow F = \mathbf{T}$ | $F \rightarrow F = \mathbf{T}$ | **T** ✓ |
+
+Es TRUE en todos los modelos (4/4) → **Válida** → **Tautología**
+
+**Intuición:** De dos proposiciones cualesquiera, siempre al menos una implica a la otra. ¿Por qué?
+- Si tienen el mismo valor → ambas implicaciones son TRUE
+- Si tienen valores diferentes → la que es FALSE implica a la que es TRUE (recordar: F→T = T)
+
+**Clave:** Las dos implicaciones NO pueden ser FALSE simultáneamente porque:
+- $P \rightarrow Q$ es FALSE solo cuando P=T y Q=F
+- $Q \rightarrow P$ es FALSE solo cuando Q=T y P=F
+- Es imposible tener P=T y P=F al mismo tiempo
+
+---
+
+**6. Contradicción: $P \land \neg P$**
+
+| P | $\neg P$ | $P \land \neg P$ |
+|:---:|:--------:|:----------------:|
+| T | F | **F** ✗ |
+| F | T | **F** ✗ |
+
+Es FALSE en todos los modelos (0/2 son TRUE) → **Insatisfacible** → **Contradicción**
+
+**Intuición:** Algo no puede ser verdadero y falso al mismo tiempo (principio de no contradicción).
+
+---
+
+**7. Contradicción: $(P \rightarrow Q) \land P \land \neg Q$**
+
+| P | Q | $P \rightarrow Q$ | $\neg Q$ | $(P \rightarrow Q) \land P \land \neg Q$ |
+|:---:|:---:|:-----------------:|:--------:|:----------------------------------------:|
+| T | T | T | F | $T \land T \land F = \mathbf{F}$ ✗ |
+| T | F | F | T | $F \land T \land T = \mathbf{F}$ ✗ |
+| F | T | T | F | $T \land F \land F = \mathbf{F}$ ✗ |
+| F | F | T | T | $T \land F \land T = \mathbf{F}$ ✗ |
+
+Es FALSE en todos los modelos (0/4 son TRUE) → **Insatisfacible** → **Contradicción**
+
+**Intuición:** Esta fórmula dice "Si P entonces Q" Y "P es verdadero" Y "Q es falso". Pero si P es verdadero y P→Q es verdadero, entonces Q debe ser verdadero (Modus Ponens). Contradicción con ¬Q.
+
 ---
 
 ## Relaciones Importantes
